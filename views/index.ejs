@@ -1,0 +1,138 @@
+<%- include('./partials/header') %>
+
+<div id="app">
+    <div v-html="consoleOutput" id="consoleOutput">
+        {{consoleHistory}}
+    </div>
+    <div class="console_controller">
+        <input type="text" id="console_input" @keypress="keyboard_audio_effect" @keyup.enter="console_input" placeholder="Type your command here" autofocus>
+    </div>
+</div>
+<div id="loading_div" class="no_display">
+    <div class="loading_gif">
+        <div class="spinner-border"></div>
+    </div>
+</div>
+<audio autoplay loop id="som_fundo">
+    <source src="audio/old_pc.mp3" type="audio/mp3">
+</audio>
+<script>
+    
+    let vue = new Vue({
+        el: '#app',
+        data: {
+            loggedIn: <%- loggedIn %>,
+            username: '<%- username %>',
+            consoleHistory:
+                [
+                    "BattleShip System Version 1.0.0",
+                    "(C)Grupo 10, Stark Industries"
+                ]
+        },
+        watch: {},
+        created () {
+            if(this.loggedIn){
+                this.consoleHistory.push('Welcome '+this.username);
+                this.loadGame();
+            }else{
+                this.consoleHistory.push("Please login using /login [USERNAME] [PASSWORD]");
+                this.consoleHistory.push("Or register using /register [USERNAME] [PASSWORD]");
+            }
+        },
+        methods: {
+            loadGame(){
+                let input = document.getElementById('console_input');
+                let console = this.consoleHistory;
+                    console.push("The system is now loading. Please Wait...");
+                    setTimeout(() => {
+                        input.value = "";
+                        $('#som_fundo').animate({volume: 0}, 1000);
+                        $('#loading_div').fadeIn(200);
+                        setTimeout(() => { window.location.href = "/menu"; }, 2000);
+                    }, 2000);
+            },
+            console_input(){
+                let input = document.getElementById('console_input');
+                let console = this.consoleHistory;
+
+
+                if(input.value.startsWith("/login ")) {
+                    if(vue.loggedIn === true)
+                    {
+                        console.push("You are already logged in");
+                        input.value = "";
+                        return;
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: '/api/login',
+                        data: {
+                            "username": input.value.split(' ')[1],
+                            "password": input.value.split(' ')[2]
+                        },
+                        success: (response) => {
+                            if(response.code === true){
+                                console.push("Logged in! Welcome "+response.username);
+                                this.loadGame();
+                                vue.loggedIn = true;
+                            }else
+                                console.push("Credentials are incorrect");
+                        },
+                        error: () => {
+                            console.push("Credentials are incorrect.");
+                        },
+                        dataType: "json"
+                    });
+                    input.value = "";
+                }else
+                if(input.value.startsWith("/register ")) {
+                    if(vue.loggedIn === true)
+                    {
+                        console.push("You are already logged in");
+                        input.value = "";
+                        return;
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: '/api/register',
+                        data: {
+                            "username": input.value.split(' ')[1],
+                            "password": input.value.split(' ')[2]
+                        },
+                        success: (response) => {
+                            if(response.code === true){
+                                console.push("Registered! Welcome "+response.username);
+                                this.loadGame();
+                                vue.loggedIn = true;
+                            }else
+                                console.push("The username already exists. Please try another");
+                        },
+                        error: () => {
+                            console.push("An error happened.");
+                        },
+                        dataType: "json"
+                    });
+                    input.value = "";
+                }
+
+            },
+
+            keyboard_audio_effect() {
+                var soundEffect = new Audio("/audio/key.m4a");
+                soundEffect.play();
+            }
+        },
+        computed: {
+            consoleOutput(){
+                var output = "";
+                this.consoleHistory.forEach((item, index) => {
+                    output += '<p>'+item+'</p>';
+                });
+                return output;
+            }
+        }
+    });
+</script>
+</body>
+</html>

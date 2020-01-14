@@ -1,0 +1,645 @@
+<%- include('./partials/header') %>
+    <p id="gameStatus" class="gameStatus">Por favor insira os seus barcos</p>
+    <table id="nosso_tabuleiro" class="tabuleiro_de_jogo">
+        <tr>
+            <th id="n_9_A"></th>
+            <th id="n_9_B"></th>
+            <th id="n_9_C"></th>
+            <th id="n_9_D"></th>
+            <th id="n_9_E"></th>
+            <th id="n_9_F"></th>
+            <th id="n_9_G"></th>
+            <th id="n_9_H"></th>
+            <th id="n_9_I"></th>
+            <th id="n_9_J"></th>
+            <th id="n_9_K"></th>
+        </tr>
+        <tr>
+            <th id="n_8_A"></th>
+            <th id="n_8_B"></th>
+            <th id="n_8_C"></th>
+            <th id="n_8_D"></th>
+            <th id="n_8_E"></th>
+            <th id="n_8_F"></th>
+            <th id="n_8_G"></th>
+            <th id="n_8_H"></th>
+            <th id="n_8_I"></th>
+            <th id="n_8_J"></th>
+            <th id="n_8_K"></th>
+        </tr>
+        <tr>
+            <th id="n_7_A"></th>
+            <th id="n_7_B"></th>
+            <th id="n_7_C"></th>
+            <th id="n_7_D"></th>
+            <th id="n_7_E"></th>
+            <th id="n_7_F"></th>
+            <th id="n_7_G"></th>
+            <th id="n_7_H"></th>
+            <th id="n_7_I"></th>
+            <th id="n_7_J"></th>
+            <th id="n_7_K"></th>
+        </tr>
+        <tr>
+            <th id="n_6_A"></th>
+            <th id="n_6_B"></th>
+            <th id="n_6_C"></th>
+            <th id="n_6_D"></th>
+            <th id="n_6_E"></th>
+            <th id="n_6_F"></th>
+            <th id="n_6_G"></th>
+            <th id="n_6_H"></th>
+            <th id="n_6_I"></th>
+            <th id="n_6_J"></th>
+            <th id="n_6_K"></th>
+        </tr>
+        <tr>
+            <th id="n_5_A"></th>
+            <th id="n_5_B"></th>
+            <th id="n_5_C"></th>
+            <th id="n_5_D"></th>
+            <th id="n_5_E"></th>
+            <th id="n_5_F"></th>
+            <th id="n_5_G"></th>
+            <th id="n_5_H"></th>
+            <th id="n_5_I"></th>
+            <th id="n_5_J"></th>
+            <th id="n_5_K"></th>
+        </tr>
+        <tr>
+            <th id="n_4_A"></th>
+            <th id="n_4_B"></th>
+            <th id="n_4_C"></th>
+            <th id="n_4_D"></th>
+            <th id="n_4_E"></th>
+            <th id="n_4_F"></th>
+            <th id="n_4_G"></th>
+            <th id="n_4_H"></th>
+            <th id="n_4_I"></th>
+            <th id="n_4_J"></th>
+            <th id="n_4_K"></th>
+        </tr>
+        <tr>
+            <th id="n_3_A"></th>
+            <th id="n_3_B"></th>
+            <th id="n_3_C"></th>
+            <th id="n_3_D"></th>
+            <th id="n_3_E"></th>
+            <th id="n_3_F"></th>
+            <th id="n_3_G"></th>
+            <th id="n_3_H"></th>
+            <th id="n_3_I"></th>
+            <th id="n_3_J"></th>
+            <th id="n_3_K"></th>
+        </tr>
+        <tr>
+            <th id="n_2_A"></th>
+            <th id="n_2_B"></th>
+            <th id="n_2_C"></th>
+            <th id="n_2_D"></th>
+            <th id="n_2_E"></th>
+            <th id="n_2_F"></th>
+            <th id="n_2_G"></th>
+            <th id="n_2_H"></th>
+            <th id="n_2_I"></th>
+            <th id="n_2_J"></th>
+            <th id="n_2_K"></th>
+        </tr>
+        <tr>
+            <th id="n_1_A"></th>
+            <th id="n_1_B"></th>
+            <th id="n_1_C"></th>
+            <th id="n_1_D"></th>
+            <th id="n_1_E"></th>
+            <th id="n_1_F"></th>
+            <th id="n_1_G"></th>
+            <th id="n_1_H"></th>
+            <th id="n_1_I"></th>
+            <th id="n_1_J"></th>
+            <th id="n_1_K"></th>
+        </tr>
+    </table>
+    <table id="inimigo_tabuleiro" class="tabuleiro_de_jogo hidden">
+        <tr>
+            <th id="i_9_A"></th>
+            <th id="i_9_B"></th>
+            <th id="i_9_C"></th>
+            <th id="i_9_D"></th>
+            <th id="i_9_E"></th>
+            <th id="i_9_F"></th>
+            <th id="i_9_G"></th>
+            <th id="i_9_H"></th>
+            <th id="i_9_I"></th>
+            <th id="i_9_J"></th>
+            <th id="i_9_K"></th>
+        </tr>
+        <tr>
+            <th id="i_8_A"></th>
+            <th id="i_8_B"></th>
+            <th id="i_8_C"></th>
+            <th id="i_8_D"></th>
+            <th id="i_8_E"></th>
+            <th id="i_8_F"></th>
+            <th id="i_8_G"></th>
+            <th id="i_8_H"></th>
+            <th id="i_8_I"></th>
+            <th id="i_8_J"></th>
+            <th id="i_8_K"></th>
+        </tr>
+        <tr>
+            <th id="i_7_A"></th>
+            <th id="i_7_B"></th>
+            <th id="i_7_C"></th>
+            <th id="i_7_D"></th>
+            <th id="i_7_E"></th>
+            <th id="i_7_F"></th>
+            <th id="i_7_G"></th>
+            <th id="i_7_H"></th>
+            <th id="i_7_I"></th>
+            <th id="i_7_J"></th>
+            <th id="i_7_K"></th>
+        </tr>
+        <tr>
+            <th id="i_6_A"></th>
+            <th id="i_6_B"></th>
+            <th id="i_6_C"></th>
+            <th id="i_6_D"></th>
+            <th id="i_6_E"></th>
+            <th id="i_6_F"></th>
+            <th id="i_6_G"></th>
+            <th id="i_6_H"></th>
+            <th id="i_6_I"></th>
+            <th id="i_6_J"></th>
+            <th id="i_6_K"></th>
+        </tr>
+        <tr>
+            <th id="i_5_A"></th>
+            <th id="i_5_B"></th>
+            <th id="i_5_C"></th>
+            <th id="i_5_D"></th>
+            <th id="i_5_E"></th>
+            <th id="i_5_F"></th>
+            <th id="i_5_G"></th>
+            <th id="i_5_H"></th>
+            <th id="i_5_I"></th>
+            <th id="i_5_J"></th>
+            <th id="i_5_K"></th>
+        </tr>
+        <tr>
+            <th id="i_4_A"></th>
+            <th id="i_4_B"></th>
+            <th id="i_4_C"></th>
+            <th id="i_4_D"></th>
+            <th id="i_4_E"></th>
+            <th id="i_4_F"></th>
+            <th id="i_4_G"></th>
+            <th id="i_4_H"></th>
+            <th id="i_4_I"></th>
+            <th id="i_4_J"></th>
+            <th id="i_4_K"></th>
+        </tr>
+        <tr>
+            <th id="i_3_A"></th>
+            <th id="i_3_B"></th>
+            <th id="i_3_C"></th>
+            <th id="i_3_D"></th>
+            <th id="i_3_E"></th>
+            <th id="i_3_F"></th>
+            <th id="i_3_G"></th>
+            <th id="i_3_H"></th>
+            <th id="i_3_I"></th>
+            <th id="i_3_J"></th>
+            <th id="i_3_K"></th>
+        </tr>
+        <tr>
+            <th id="i_2_A"></th>
+            <th id="i_2_B"></th>
+            <th id="i_2_C"></th>
+            <th id="i_2_D"></th>
+            <th id="i_2_E"></th>
+            <th id="i_2_F"></th>
+            <th id="i_2_G"></th>
+            <th id="i_2_H"></th>
+            <th id="i_2_I"></th>
+            <th id="i_2_J"></th>
+            <th id="i_2_K"></th>
+        </tr>
+        <tr>
+            <th id="i_1_A"></th>
+            <th id="i_1_B"></th>
+            <th id="i_1_C"></th>
+            <th id="i_1_D"></th>
+            <th id="i_1_E"></th>
+            <th id="i_1_F"></th>
+            <th id="i_1_G"></th>
+            <th id="i_1_H"></th>
+            <th id="i_1_I"></th>
+            <th id="i_1_J"></th>
+            <th id="i_1_K"></th>
+        </tr>
+    </table>
+<div id="loading_div">
+    <div class="loading_gif">
+        <div class="spinner-border"></div>
+    </div>
+</div>
+<script src="/js/custom_prompt_box.js"></script>
+<script>
+
+    let gameID = '<%- gameID %>';
+    let myUsername = '<%- currentUser %>';
+    let player1 = '<%- player1 %>';
+    let player2 = '<%- player2 %>';
+    let whatPlayerAmI;
+    if(player1 === myUsername)
+        whatPlayerAmI = 1;
+    else
+        whatPlayerAmI = 2;
+
+
+    let settings = {
+        posicaoDosNavios:{
+                'Carrier':      {'frente': null, 'tras': null, 'tamanho': 5}, //5 buracos
+                'Battleship':   {'frente': null, 'tras': null, 'tamanho': 4}, //4 buracos
+                'Cruiser':      {'frente': null, 'tras': null, 'tamanho': 3}, //3 buracos
+                'Submarine':    {'frente': null, 'tras': null, 'tamanho': 3}, //3 buracos
+                'Destroyer':    {'frente': null, 'tras': null, 'tamanho': 2}  //2 buracos
+        },
+        //Se eu como jogador acabei de fazer o setup ao tabuleiro
+        imReady: false,
+        //Se o meu inimigo ja configurou o seu tabuleiro
+        enemyIsReady: false
+    }
+
+    const iniciarOJogoEmSi = () => {
+        $("#gameStatus").html('A iniciar o jogo...');
+        console.log('A redireccionar para a view game2...');
+        $('#loading_div').fadeIn(1000);
+        document.location = '/game2';
+    };
+
+    //_onTrue -> Callback em caso receber true do servidor; _onFalse-> Callback em caso receber falso do servidor
+    const checkIfBothPlayersAreReadyOnStartOfView = (_onTrue, _onFalse) => {
+        $.ajax({
+            type: "POST",
+            url: '/api/game/bothPlayersHaveSetupBoard',
+            data: {
+                "gameID": gameID,
+            },
+            success: (response) => {
+                if(response.code === true){
+                    imReady = true;
+                    enemyIsReady = true;
+                    _onTrue();
+                }else{
+                    console.log("They are not both ready!");
+                    if(!response["player"+whatPlayerAmI]){
+                        _onFalse();
+                    }else
+                        $("#gameStatus").html('A espera que o inimigo preencha o seu tabuleiro...');
+                }
+            },
+            error: () => {
+                console.log("An error happened");
+            },
+            dataType: "json"
+        });
+    };
+    const checkIfBothPlayersAreReady = (_callback) => {
+        $.ajax({
+            type: "POST",
+            url: '/api/game/bothPlayersHaveSetupBoard',
+            data: {
+                "gameID": gameID,
+            },
+            success: (response) => {
+                if(response.code === true){
+                    imReady = true;
+                    enemyIsReady = true;
+                    _callback();
+                }else{
+                    $("#gameStatus").html('A espera do outro jogador...');
+                }
+            },
+            error: () => {
+                console.log("An error happened");
+            },
+            dataType: "json"
+        });
+    };
+
+    var socket;
+    socket = new io();
+    socket.on('InGame_'+myUsername, (msg) => {
+        if(msg === "EnemyReady"){
+            enemyIsReady = true;
+            checkIfBothPlayersAreReady(iniciarOJogoEmSi);
+        }
+    });
+    
+    const shoot = (position) => {
+        $('#'+position).css("background-color", "green");
+        console.log('Clicked on button:'+position);
+    };
+
+
+    const tableAction = (tabuleiro,action) => {
+        for(let i = 1; i <= 9; i++)
+            for(let p = 65; p <=75;p++)
+                document.getElementById(tabuleiro+"_"+i+"_"+String.fromCharCode(p).toUpperCase())
+                .addEventListener(
+                    "click", 
+                    () => {
+                        const number = i;
+                        const letter = String.fromCharCode(p).toUpperCase();
+                        action(tabuleiro+"_"+i+"_"+letter);
+                    }
+                );
+    };
+    tableAction('i', shoot);
+    
+    for(let i = 1; i <= 9; i++)
+            for(let p = 65; p <=75;p++){
+                $("#n_"+i+"_"+String.fromCharCode(p).toUpperCase()).html(
+                    i+String.fromCharCode(p).toUpperCase()
+                    );
+                $("#n_"+i+"_"+String.fromCharCode(p).toUpperCase()).attr('ocupado','0');
+            }
+    //Verifica se navio possui o tamanho correto e não está na diagonal
+    const checkForValidShipSize = (firstPosition, lastPosition, shipSize) => {
+        if(firstPosition == null || lastPosition == null)
+            return false;
+
+        let first = {
+            x: firstPosition[1],
+            y: firstPosition[0]
+        };
+        let last = {
+            x: lastPosition[1],
+            y: lastPosition[0]
+        };
+        
+        if(first.x === undefined || first.y === undefined || last.x === undefined || last.y === undefined)
+            return false;
+
+        //Verificar se as coordenadas estão dentro do tabuleiro
+        if(   first.x.charCodeAt(0) < 65 || first.x.charCodeAt(0) > 75 
+           || last.x.charCodeAt(0) < 65  || last.x.charCodeAt(0) > 75
+           || first.y < 1                || first.y > 9
+           || last.y < 1                 || last.y > 9 
+        )
+            return false;
+
+        let op1, op2;
+        if(first.x === last.x){
+            if(first.y > last.y){
+                op1 = first.y;
+                op2 = last.y;
+            }else{
+                op1 = last.y;
+                op2 = first.y;
+            }
+        }else
+        if(first.y === last.y)
+        {
+            if(first.x.charCodeAt(0) > last.x.charCodeAt(0)){
+                op1 = first.x.charCodeAt(0);
+                op2 = last.x.charCodeAt(0);
+            }else{
+                op2 = first.x.charCodeAt(0);
+                op1 = last.x.charCodeAt(0);
+            }
+        }else
+            return false;
+        
+        if((op1-op2+1) === shipSize)
+            return true;
+        else
+            return false;
+    };
+    
+    //Obter pontos ocupados pelo navio. Retorna Array com os pontos
+    //Passar para cada navio um JSON do seguinte genero: {frente: 'posicao frente', tras: 'posicao tras'}
+    const checkForShipCollisionAux = (ship) => {
+        //Escala entre letras e numeros. Atribui de A a K um 1 a 11
+        const escalaDoChar = 64;
+        let resultado = [];
+        let frente = {
+            x: ship.frente[1].charCodeAt(0)-escalaDoChar,
+            y: ship.frente[0]
+        };
+        let tras = {
+            x: ship.tras[1].charCodeAt(0)-escalaDoChar,
+            y: ship.tras[0]
+        };
+        //OP1 deve ser sempre maior que o OP2
+        let op1,op2;
+        if(frente.x === tras.x){
+            if(frente.y > tras.y){
+                op1 = frente.y;
+                op2 = tras.y;
+            }else{
+                op1 = tras.y;
+                op2 = frente.y;
+            }
+            
+            for(var i = op2; i <= op1;i++){
+                resultado.push(i+""+ship.frente[1]);
+            }
+        }else
+        if(frente.y === frente.y){
+            if(frente.x > tras.x){
+                op1 = frente.x;
+                op2 = tras.x;
+            }else{
+                op1 = tras.x;
+                op2 = frente.x;
+            }
+            for(var i = op2; i <= op1;i++){
+                resultado.push(ship.frente[0]+String.fromCharCode(i+escalaDoChar));
+            }
+        }
+
+        return resultado;        
+    };
+    //Verifica se uma linha traçada usando o inicio e o fim do navio se intersetam
+    //Passar para cada navio um JSON do seguinte genero: {frente: 'posicao frente', tras: 'posicao tras'}
+    const checkForShipCollision = (ship1, ship2) => {
+        //Pontos no jogo que o navio ocupa
+        let ship1Dots, ship2Dots;
+        //Resultado
+        let resposta = false;
+
+        ship1Dots = checkForShipCollisionAux(ship1);
+        ship2Dots = checkForShipCollisionAux(ship2);
+
+        ship1Dots.forEach((shipOn1) => {
+            if(ship2Dots.includes(shipOn1))
+                resposta = true;
+        });
+        
+        return resposta;        
+    };
+
+
+    const inserirNavio = (shipName, primeiraPosicao, segundaPosicao) => {
+        //Se obtivemos um navio com as coordenadas corretas e num lugar onde não existe outro navio lá
+        let navioPosicaoUnica = false;
+                settings.posicaoDosNavios[shipName]['tras'] = primeiraPosicao;
+                settings.posicaoDosNavios[shipName]['frente'] = segundaPosicao;
+                if(!checkForValidShipSize(settings.posicaoDosNavios[shipName]['tras'], settings.posicaoDosNavios[shipName]['frente'], settings.posicaoDosNavios[shipName]['tamanho']))
+                {
+                    alert('Aconteceu um erro. Ou as dimensões do navio estão erradas ou tentou colocar o navio na diagonal');
+                    return false;
+                }
+            
+            //Lista de navios já inseridos no tabuleiro
+            let navios_existentes = [];
+            switch(shipName){
+                case 'Battleship':
+                    navios_existentes.push('Carrier');
+                    break;
+                case 'Cruiser':
+                    navios_existentes.push('Carrier');
+                    navios_existentes.push('Battleship');
+                    break;
+                case 'Submarine':
+                    navios_existentes.push('Carrier');
+                    navios_existentes.push('Battleship');
+                    navios_existentes.push('Cruiser');
+                    break;
+                case 'Destroyer':
+                    navios_existentes.push('Carrier');
+                    navios_existentes.push('Battleship');
+                    navios_existentes.push('Cruiser');
+                    navios_existentes.push('Submarine');
+                    break;
+                default:
+                    break;
+            }
+            //Verificar se existe algum navio naquelas coordenadas
+            let existeUmNavioNaquelasCoordenadas = false;
+            navios_existentes.forEach((navio) => {
+                let ifCheck = checkForShipCollision(
+                    {
+                        frente: settings.posicaoDosNavios[shipName]['frente'],
+                        tras:   settings.posicaoDosNavios[shipName]['tras']
+                    },
+                    {
+                        frente: settings.posicaoDosNavios[navio]['frente'],
+                        tras:   settings.posicaoDosNavios[navio]['tras']
+                    }
+                );
+                //Se os navios colidem
+                if(ifCheck)
+                    existeUmNavioNaquelasCoordenadas = true;
+            });
+            if(existeUmNavioNaquelasCoordenadas)
+            {
+                navioPosicaoUnica       = false;
+                alert('Já existe um navio nas coordenadas indicadas!');
+            }else
+                navioPosicaoUnica = true;
+
+            return navioPosicaoUnica;
+    }
+    
+    //Ao colocar os barcos no tabuleiro, desenhamos o barco
+    const desenharNavioAliado = (shipName) => {
+        let shipCoord = {
+            frente: settings.posicaoDosNavios[shipName].frente,
+            tras: settings.posicaoDosNavios[shipName].tras
+        }
+        //Obter coordenadas ocupadas pelo navio
+        let pontosUsadosPeloNavio = checkForShipCollisionAux(shipCoord);
+        pontosUsadosPeloNavio.forEach((coordenada) => {
+            $('#n_'+coordenada[0]+"_"+coordenada[1]).css("background-color","white");
+            $('#n_'+coordenada[0]+"_"+coordenada[1]).attr('ocupado','1');
+        });
+    };
+    
+    const custom_prompt_box = (numero) => {};
+
+    const pedirAoUtilizadorCoordenada = (shipName, _callback) => {
+        customPromptBox('Coordenada da parte traseira do '+shipName,'', (traseira) => 
+        {
+            customPromptBox('Coordenada da parte frontal do '+shipName, 'Tamanho maximo no do navio: '+settings.posicaoDosNavios[shipName].tamanho, (frente) => 
+            { 
+                let res = inserirNavio(shipName,traseira.toUpperCase(),frente.toUpperCase());
+                if(!res)
+                    pedirAoUtilizadorCoordenada(shipName, _callback);
+                else{
+                    desenharNavioAliado(shipName);
+                    console.log('Desenhado '+shipName+'!');
+                    _callback();
+                }
+            });
+        });
+    };
+
+    const configurarOMeuTabuleiro = () => {
+        //Pedir para cada navio as suas coordenadas e desenhar no tabuleiro
+        pedirAoUtilizadorCoordenada('Carrier',() => {
+                pedirAoUtilizadorCoordenada('Battleship',() => {
+                    pedirAoUtilizadorCoordenada('Cruiser',() => {
+                        pedirAoUtilizadorCoordenada('Submarine',() => {
+                            pedirAoUtilizadorCoordenada('Destroyer',() => {
+                                console.log('Added All ships');
+                                let playerNumber;
+                                let tabuleiro = {};
+                                for(let i = 1; i <= 9; i++){
+                                    let linha = {};
+                                    for(let p = 65; p <=75;p++){
+                                        linha[String.fromCharCode(p).toUpperCase()] = $("#n_"+i+"_"+String.fromCharCode(p).toUpperCase()).attr('ocupado');
+                                    }
+                                    tabuleiro[i] = linha;
+                                }
+                                if(myUsername === player1)
+                                    playerNumber = 1;
+                                else
+                                if(myUsername === player2)
+                                    playerNumber = 2;
+                                console.log(tabuleiro);
+                                $.ajax({
+                                    type: "POST",
+                                    url: '/api/game/saveLayout',
+                                    data: {
+                                        "playerNumber": playerNumber,
+                                        "gameID": gameID,
+                                        "tabuleiro": JSON.stringify(tabuleiro),
+                                        "meusBarcos": JSON.stringify(settings.posicaoDosNavios)
+                                    },
+                                    success: (response) => {
+                                        if(response.code === true){
+                                            console.log("Layout saved!");
+                                            imReady = true;
+                                            checkIfBothPlayersAreReady(iniciarOJogoEmSi);
+                                        }else
+                                            console.log("An error happened");
+                                    },
+                                    error: () => {
+                                            console.log("An error happened");
+                                    },
+                                    dataType: "json"
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+    }
+
+    $(document).ready(() => {
+            $("#gameStatus").html('Colocação dos navios no tabuleiro');
+            $('#loading_div').fadeOut(300);
+            //Em caso de desconectar, verificar na mesma
+            checkIfBothPlayersAreReadyOnStartOfView(iniciarOJogoEmSi,configurarOMeuTabuleiro);
+            
+    });
+
+    console.log('Player 1: '+player1);
+    console.log('Player 2: '+player2);
+   
+</script>
+</body>
+</html>

@@ -1,0 +1,489 @@
+<%- include('./partials/header') %>
+<div id="app">
+    <p id="gameStatus" class="gameStatus"></p>
+    <table id="nosso_tabuleiro" class="tabuleiro_de_jogo">
+        <tr>
+            <th id="n_9_A"></th>
+            <th id="n_9_B"></th>
+            <th id="n_9_C"></th>
+            <th id="n_9_D"></th>
+            <th id="n_9_E"></th>
+            <th id="n_9_F"></th>
+            <th id="n_9_G"></th>
+            <th id="n_9_H"></th>
+            <th id="n_9_I"></th>
+            <th id="n_9_J"></th>
+            <th id="n_9_K"></th>
+        </tr>
+        <tr>
+            <th id="n_8_A"></th>
+            <th id="n_8_B"></th>
+            <th id="n_8_C"></th>
+            <th id="n_8_D"></th>
+            <th id="n_8_E"></th>
+            <th id="n_8_F"></th>
+            <th id="n_8_G"></th>
+            <th id="n_8_H"></th>
+            <th id="n_8_I"></th>
+            <th id="n_8_J"></th>
+            <th id="n_8_K"></th>
+        </tr>
+        <tr>
+            <th id="n_7_A"></th>
+            <th id="n_7_B"></th>
+            <th id="n_7_C"></th>
+            <th id="n_7_D"></th>
+            <th id="n_7_E"></th>
+            <th id="n_7_F"></th>
+            <th id="n_7_G"></th>
+            <th id="n_7_H"></th>
+            <th id="n_7_I"></th>
+            <th id="n_7_J"></th>
+            <th id="n_7_K"></th>
+        </tr>
+        <tr>
+            <th id="n_6_A"></th>
+            <th id="n_6_B"></th>
+            <th id="n_6_C"></th>
+            <th id="n_6_D"></th>
+            <th id="n_6_E"></th>
+            <th id="n_6_F"></th>
+            <th id="n_6_G"></th>
+            <th id="n_6_H"></th>
+            <th id="n_6_I"></th>
+            <th id="n_6_J"></th>
+            <th id="n_6_K"></th>
+        </tr>
+        <tr>
+            <th id="n_5_A"></th>
+            <th id="n_5_B"></th>
+            <th id="n_5_C"></th>
+            <th id="n_5_D"></th>
+            <th id="n_5_E"></th>
+            <th id="n_5_F"></th>
+            <th id="n_5_G"></th>
+            <th id="n_5_H"></th>
+            <th id="n_5_I"></th>
+            <th id="n_5_J"></th>
+            <th id="n_5_K"></th>
+        </tr>
+        <tr>
+            <th id="n_4_A"></th>
+            <th id="n_4_B"></th>
+            <th id="n_4_C"></th>
+            <th id="n_4_D"></th>
+            <th id="n_4_E"></th>
+            <th id="n_4_F"></th>
+            <th id="n_4_G"></th>
+            <th id="n_4_H"></th>
+            <th id="n_4_I"></th>
+            <th id="n_4_J"></th>
+            <th id="n_4_K"></th>
+        </tr>
+        <tr>
+            <th id="n_3_A"></th>
+            <th id="n_3_B"></th>
+            <th id="n_3_C"></th>
+            <th id="n_3_D"></th>
+            <th id="n_3_E"></th>
+            <th id="n_3_F"></th>
+            <th id="n_3_G"></th>
+            <th id="n_3_H"></th>
+            <th id="n_3_I"></th>
+            <th id="n_3_J"></th>
+            <th id="n_3_K"></th>
+        </tr>
+        <tr>
+            <th id="n_2_A"></th>
+            <th id="n_2_B"></th>
+            <th id="n_2_C"></th>
+            <th id="n_2_D"></th>
+            <th id="n_2_E"></th>
+            <th id="n_2_F"></th>
+            <th id="n_2_G"></th>
+            <th id="n_2_H"></th>
+            <th id="n_2_I"></th>
+            <th id="n_2_J"></th>
+            <th id="n_2_K"></th>
+        </tr>
+        <tr>
+            <th id="n_1_A"></th>
+            <th id="n_1_B"></th>
+            <th id="n_1_C"></th>
+            <th id="n_1_D"></th>
+            <th id="n_1_E"></th>
+            <th id="n_1_F"></th>
+            <th id="n_1_G"></th>
+            <th id="n_1_H"></th>
+            <th id="n_1_I"></th>
+            <th id="n_1_J"></th>
+            <th id="n_1_K"></th>
+        </tr>
+    </table>
+    <table id="inimigo_tabuleiro" class="tabuleiro_de_jogo">
+        <tr>
+            <th id="i_9_A"></th>
+            <th id="i_9_B"></th>
+            <th id="i_9_C"></th>
+            <th id="i_9_D"></th>
+            <th id="i_9_E"></th>
+            <th id="i_9_F"></th>
+            <th id="i_9_G"></th>
+            <th id="i_9_H"></th>
+            <th id="i_9_I"></th>
+            <th id="i_9_J"></th>
+            <th id="i_9_K"></th>
+        </tr>
+        <tr>
+            <th id="i_8_A"></th>
+            <th id="i_8_B"></th>
+            <th id="i_8_C"></th>
+            <th id="i_8_D"></th>
+            <th id="i_8_E"></th>
+            <th id="i_8_F"></th>
+            <th id="i_8_G"></th>
+            <th id="i_8_H"></th>
+            <th id="i_8_I"></th>
+            <th id="i_8_J"></th>
+            <th id="i_8_K"></th>
+        </tr>
+        <tr>
+            <th id="i_7_A"></th>
+            <th id="i_7_B"></th>
+            <th id="i_7_C"></th>
+            <th id="i_7_D"></th>
+            <th id="i_7_E"></th>
+            <th id="i_7_F"></th>
+            <th id="i_7_G"></th>
+            <th id="i_7_H"></th>
+            <th id="i_7_I"></th>
+            <th id="i_7_J"></th>
+            <th id="i_7_K"></th>
+        </tr>
+        <tr>
+            <th id="i_6_A"></th>
+            <th id="i_6_B"></th>
+            <th id="i_6_C"></th>
+            <th id="i_6_D"></th>
+            <th id="i_6_E"></th>
+            <th id="i_6_F"></th>
+            <th id="i_6_G"></th>
+            <th id="i_6_H"></th>
+            <th id="i_6_I"></th>
+            <th id="i_6_J"></th>
+            <th id="i_6_K"></th>
+        </tr>
+        <tr>
+            <th id="i_5_A"></th>
+            <th id="i_5_B"></th>
+            <th id="i_5_C"></th>
+            <th id="i_5_D"></th>
+            <th id="i_5_E"></th>
+            <th id="i_5_F"></th>
+            <th id="i_5_G"></th>
+            <th id="i_5_H"></th>
+            <th id="i_5_I"></th>
+            <th id="i_5_J"></th>
+            <th id="i_5_K"></th>
+        </tr>
+        <tr>
+            <th id="i_4_A"></th>
+            <th id="i_4_B"></th>
+            <th id="i_4_C"></th>
+            <th id="i_4_D"></th>
+            <th id="i_4_E"></th>
+            <th id="i_4_F"></th>
+            <th id="i_4_G"></th>
+            <th id="i_4_H"></th>
+            <th id="i_4_I"></th>
+            <th id="i_4_J"></th>
+            <th id="i_4_K"></th>
+        </tr>
+        <tr>
+            <th id="i_3_A"></th>
+            <th id="i_3_B"></th>
+            <th id="i_3_C"></th>
+            <th id="i_3_D"></th>
+            <th id="i_3_E"></th>
+            <th id="i_3_F"></th>
+            <th id="i_3_G"></th>
+            <th id="i_3_H"></th>
+            <th id="i_3_I"></th>
+            <th id="i_3_J"></th>
+            <th id="i_3_K"></th>
+        </tr>
+        <tr>
+            <th id="i_2_A"></th>
+            <th id="i_2_B"></th>
+            <th id="i_2_C"></th>
+            <th id="i_2_D"></th>
+            <th id="i_2_E"></th>
+            <th id="i_2_F"></th>
+            <th id="i_2_G"></th>
+            <th id="i_2_H"></th>
+            <th id="i_2_I"></th>
+            <th id="i_2_J"></th>
+            <th id="i_2_K"></th>
+        </tr>
+        <tr>
+            <th id="i_1_A"></th>
+            <th id="i_1_B"></th>
+            <th id="i_1_C"></th>
+            <th id="i_1_D"></th>
+            <th id="i_1_E"></th>
+            <th id="i_1_F"></th>
+            <th id="i_1_G"></th>
+            <th id="i_1_H"></th>
+            <th id="i_1_I"></th>
+            <th id="i_1_J"></th>
+            <th id="i_1_K"></th>
+        </tr>
+    </table>
+</div>
+<div id="loading_div">
+    <div class="loading_gif">
+        <div class="spinner-border"></div>
+    </div>
+</div>
+<script src="/js/custom_prompt_box.js"></script>
+<script>
+
+    $('#nosso_tabuleiro').hide();
+    var socket;
+
+    let vue = new Vue({
+        el: '#app',
+        data: {
+            gameID      : '<%- gameID %>',
+            myUsername  : '<%- currentUser %>',
+            player1     : '<%- player1 %>',
+            player2     : '<%- player2 %>',
+            //Que jogador sou eu o 1 ou 2?
+            tipoDeJogador: <%- tipoDeJogador %>,
+            //Quem joga agora
+            turno       : <%- turno %>,
+            barcosDoInimigo: <%- boat_location %>
+        },
+        watch: {
+        },
+        //On vue created
+        created () {
+
+            socket = new io();
+            $('#loading_div').fadeOut(300);
+            $('#gameStatus').html('A iniciar o jogo...');
+            let dadosDoServer = JSON.parse(this.getTabuleiroDoServidor());
+            let tabuleiroNoServer = JSON.parse(dadosDoServer.tabuleiro);
+            let radarNoServer = dadosDoServer["radar"+this.tipoDeJogador];
+            let radarDoInimigo = dadosDoServer["radar"+((this.tipoDeJogador === 1)? 2:1)];
+                    console.log(radarDoInimigo);
+            //Imprimir letra e cor no meu tabuleiro
+            for(let i = 1; i <= 9; i++)
+                for(let p = 65; p <=75;p++){
+                    let letra = String.fromCharCode(p);
+                    $('#n_'+i+'_'+letra).html(i+letra);
+                    if(tabuleiroNoServer[i][letra] === '1')
+                        $('#n_'+i+'_'+letra).css('background-color','black');
+                    
+                    if(radarDoInimigo[i][letra] === 1)
+                        $('#n_'+i+'_'+letra).css('background-color','blue');
+                    else
+                    if(radarDoInimigo[i][letra] === 2)
+                        $('#n_'+i+'_'+letra).css('background-color','red');
+                }
+            for(let i = 1; i <= 9; i++)
+                for(let p = 65; p <=75;p++){
+                    let letra = String.fromCharCode(p);
+                    $('#i_'+i+'_'+letra).html(i+letra);
+                    let play = "play('"+i+""+letra+"')";
+                    $('#i_'+i+'_'+letra).attr('v-on:click',play);
+                    if(radarNoServer[i][letra] === 1){
+                        $('#i_'+i+'_'+letra).css('background-color','blue');
+                    }else
+                    if(radarNoServer[i][letra] === 2){
+                        $('#i_'+i+'_'+letra).css('background-color','red');
+                        this.abaterCertaPosicaoDeNavio(i+''+letra);
+                    }
+                }
+                this.removerNaviosVazios();
+
+
+            //#region Verificar se o jogo já terminou
+            this.mostrarQuemGanhou();
+            //#endregion
+
+                this.mostrarTurno();
+
+
+            socket.on('Game_'+this.gameID, (data) => {
+                //#region Verificar se o jogo já terminou
+                this.mostrarQuemGanhou();
+                //#endregion
+                let recebido = JSON.parse(data);
+                if(recebido.quemJogou !== this.tipoDeJogador)
+                {
+                    this.inimigoJogou(recebido.jogada,recebido.tiroCerteito);
+                    this.turno = recebido.aJogar;
+                    console.log("SOCKET TURNO: "+this.turno);
+                    console.log("Tiro Certeiro: "+recebido.tiroCerteito);
+                }else{
+                    let x = recebido.jogada[1];
+                    let y = recebido.jogada[0];
+                    if(recebido.tiroCerteito)
+                        $('#i_'+y+'_'+x).css('background-color','red');
+                    else
+                        $('#i_'+y+'_'+x).css('background-color','blue');
+                    this.abaterCertaPosicaoDeNavio(y+''+x);
+                    this.detetarNavioAbatido();
+                    this.removerNaviosVazios();
+                }
+                this.mostrarTurno();
+                console.log("Recebido: "+data);
+            });
+
+        },
+        methods: {
+            //Remove os navios da variavel barcosDoInimigo que estão sem elementos (foram todos abatidos)
+            removerNaviosVazios(){
+                for(var navio in this.barcosDoInimigo){
+                    if(Object.keys(this.barcosDoInimigo[navio]).length === 0)
+                        delete this.barcosDoInimigo[navio];
+                }
+            },
+            //Marca uma certa posicao de um navio como abatida
+            abaterCertaPosicaoDeNavio(posicao_do_tiro){
+                for(var navio in this.barcosDoInimigo){
+                    for(var posicao in this.barcosDoInimigo[navio])
+                    {
+                        if(this.barcosDoInimigo[navio][posicao] === posicao_do_tiro)
+                            delete this.barcosDoInimigo[navio][posicao];
+                    }
+                }
+            },
+            detetarNavioAbatido(){
+                for(var navio in this.barcosDoInimigo){
+                    if(Object.keys(this.barcosDoInimigo[navio]).length === 0)
+                        $.alert({
+                            title: 'Navio inimigo afundado',
+                            content: 'Hrrr! Afundaste o meu '+navio,
+                        });
+                }              
+            },
+            updateEstadoDoJogo(){
+                return $.ajax({
+                            type: "POST",
+                            url: '/api/game/updateEstadoDoJogo',
+                            data: {
+                                gameID: this.gameID
+                            },
+                            async: false
+                        }).responseText;
+            },
+            mostrarQuemGanhou(){
+                console.log(this.quemGanhou());
+                let jogoTerminou = JSON.parse(this.quemGanhou());
+                if(jogoTerminou.jogador1Ganhou)
+                {
+                    var soundEffect = new Audio("/audio/military_horn.mp3");
+                    soundEffect.play();
+                    $.confirm({
+                        title: 'O jogo terminou',
+                        content: (this.tipoDeJogador === 1)? 'Ganhaste!': 'Perdeste',
+                        buttons: {
+                            ok: function () {
+                                vue.updateEstadoDoJogo();
+                                window.location.href = '/menu';
+                            }
+                        }
+                    });
+                }
+                if(jogoTerminou.jogador2Ganhou){
+                    var soundEffect = new Audio("/audio/military_horn.mp3");
+                    soundEffect.play();
+                    $.confirm({
+                        title: 'O jogo terminou',
+                        content: (this.tipoDeJogador === 2)? 'Ganhaste!': 'Perdeste',
+                        buttons: {
+                            ok: function () {
+                                vue.updateEstadoDoJogo();
+                                window.location.href = '/menu';
+                            }
+                        }
+                    });
+                }
+            },
+            mostrarTurno(){
+                console.log('MUDANCA DE TURNO: '+this.turno);
+                console.log(typeof this.turno);
+                setTimeout(() => {
+                        if(this.turno === this.tipoDeJogador){
+                            $('#nosso_tabuleiro').hide();
+                            $('#inimigo_tabuleiro').show();
+                            $('#gameStatus').html('Agora é o seu turno!');
+                            console.log('Teu turno!');
+                        }else{
+                            console.log('Agora o inimigo vai jogar');
+                            $('#nosso_tabuleiro').show();
+                            $('#inimigo_tabuleiro').hide();
+                            $('#gameStatus').html('Agora é o turno do seu inimigo!');
+                        } 
+                    },500);
+            },
+            inimigoJogou(posicao, tiroCerteito){
+                let x = posicao[1];
+                let y = posicao[0];
+                if(tiroCerteito){
+                    $('#n_'+y+'_'+x).css('background-color','red');
+                    var soundEffect = new Audio("/audio/explosao.mp3");
+                    soundEffect.play();
+                }else{
+                    $('#n_'+y+'_'+x).css('background-color','blue');
+                    var soundEffect = new Audio("/audio/water.mp3");
+                    soundEffect.play();
+                }
+            },
+            play(posicao){
+                if(this.turno === this.tipoDeJogador){
+                    socket.emit('Game',JSON.stringify({
+                        gameID: this.gameID,
+                        estado: 'play',
+                        //O meu numero
+                        jogador: this.tipoDeJogador,
+                        //A posicao jogada
+                        jogada: posicao
+                    }));
+                    if(this.turno === 2)
+                        this.turno = 1;
+                    else
+                        this.turno = 2;
+                }
+            },
+            getTabuleiroDoServidor(){
+                return $.ajax({
+                    type: "POST",
+                    url: '/api/game/getLayout',
+                    data: {
+                        gameID: this.gameID
+                    },
+                    async: false
+                }).responseText;
+            },
+            quemGanhou(){
+                return $.ajax({
+                    type: "POST",
+                    url: '/api/game/hasGameEnded',
+                    data: {
+                        gameID: this.gameID
+                    },
+                    async: false
+                }).responseText
+            },
+            requestGameInfo(){
+                socket.emit('Game',{gameID: this.gameID, estado: 'info'});
+            }
+        },
+        computed: {
+        }
+    });
+
+</script>

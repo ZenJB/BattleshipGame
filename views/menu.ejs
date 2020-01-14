@@ -1,0 +1,227 @@
+<%- include('./partials/header') %>
+<div id="app">
+    <table id="menu" class="menu">
+        <thead>
+            <tr>
+                <th class="titulo">
+                    Batalha Naval
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td v-on:click="mudarDeMenu('menu_1v1')">1 V 1</td>
+            </tr>
+            <tr>
+                <td v-on:click="terminarSessao">Terminar Sessão</td>
+            </tr>
+        </tbody>
+    </table>
+    <table id="menu_1v1" class="menu hidden">
+        <thead>
+            <tr>
+                <th class="titulo">
+                    1 V 1
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td v-on:click="createGame">Criar partida</td>
+            </tr>
+            <tr>
+                <td v-on:click="mudarDeMenu('menu_1v1_juntar_partida')">Juntar a partida</td>
+            </tr>
+            <tr>
+                <td v-on:click="mudarDeMenu('menu')">Voltar</td>
+            </tr>
+        </tbody>
+    </table>
+    <table id="menu_1v1_criar_partida" class="menu hidden">
+        <thead>
+            <tr>
+                <th class="titulo">
+                    1 V 1
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <p>Partilha este código com o segundo jogador</p>
+                    <a>{{currentGame}}</a>
+                    <br>
+                    <a>Estado: {{currentGameStatus}}</a>
+                </td>
+                <tr>
+                    <td  v-on:click="cancelGame">Cancelar</td>
+                </tr>
+            </tr>
+        </tbody>
+    </table>
+    <table id="menu_1v1_juntar_partida" class="menu hidden">
+        <thead>
+            <tr>
+                <th class="titulo">
+                    1 V 1
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    Introduza o código do jogador 1
+                    <input type="text" id="input_menu_1v1_juntar_partida" v-on:keyup.enter="joinGame">
+                </td>
+            </tr>
+            <tr>
+                <td  v-on:click="mudarDeMenu('menu_1v1')">Voltar</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="loading_div">
+    <div class="loading_gif">
+        <div class="spinner-border"></div>
+    </div>
+</div>
+<script>
+    $(window).on("load", () => {
+        setTimeout(() => { $('#loading_div').fadeOut(200); }, 1000);
+                
+    });
+    $.ajax({
+        type: "POST",
+        url: '/api/game/amIPlaying',
+        data: {
+        },
+        success: (response) => {
+            if(response.code === true){
+                $('#loading_div').fadeIn(100);
+                setTimeout(() => { window.location.href = "/game"; }, 200);
+            }
+        },
+        error: () => {
+            console.log("An error happened.");
+        },
+        dataType: "json"
+    });
+
+    var socket;
+    socket = new io();
+    socket.on('GameTracker_<%- username %>', (msg) => {
+        if(msg === "Player2Joined"){
+            currentGameStatus = 'Player 2 joined! Starting the game...';
+            $('#loading_div').fadeIn(200);
+            setTimeout(() => { window.location.href = "/game"; }, 2000);
+        }
+    });
+    
+    let vue = new Vue({
+        el: '#app',
+        data: {
+            currentGame: '',
+            currentGameStatus: 'A espera do 2 jogador'
+        },
+        watch: {},
+        created () {
+        },
+        methods: {
+            cancelGame(){
+                if(this.currentGame !== '')
+                $.ajax({
+                        type: "POST",
+                        url: '/api/game/create',
+                        data: {
+                            "gameID": this.currentGame
+                        },
+                        success: (response) => {
+                            if(response.code === true){
+                                console.log("Canceled session!");
+                                this.mudarDeMenu('menu_1v1')
+                            }else
+                                console.log("An error happened.");
+                        },
+                        error: () => {
+                            console.log("An error happened.");
+                        },
+                        dataType: "json"
+                    });
+            },
+            createGame(){
+                $.ajax({
+                        type: "POST",
+                        url: '/api/game/create',
+                        data: {
+                        },
+                        success: (response) => {
+                            if(response.code === true){
+                                this.currentGame = response.gameID;
+                                this.mudarDeMenu('menu_1v1_criar_partida');
+                                console.log("Created session!");
+                            }else
+                                console.log("Session is full.");
+                        },
+                        error: () => {
+                            console.log("An error happened.");
+                        },
+                        dataType: "json"
+                    });
+            },
+            joinGame(){
+                let sessionID = document.getElementById('input_menu_1v1_juntar_partida').value;
+                $.ajax({
+                        type: "POST",
+                        url: '/api/game/join',
+                        data: {
+                            "gameID": sessionID
+                        },
+                        success: (response) => {
+                            if(response.code === true){
+                                console.log("Joined session!");
+                                $('#loading_div').fadeIn(200);
+                                setTimeout(() => { window.location.href = "/game"; }, 2000);
+                            }else
+                                console.log("Session is full.");
+                        },
+                        error: () => {
+                            console.log("An error happened.");
+                        },
+                        dataType: "json"
+                    });
+            },
+            mudarDeMenu(idDoMenu) {
+                this.keyboard_audio_effect();
+                        $('.menu').fadeOut(400);
+                        $('#'+idDoMenu).fadeIn(200);
+            },
+            terminarSessao(){
+                $.ajax({
+                        type: "POST",
+                        url: '/api/logout',
+                        data: {
+                        },
+                        success: (response) => {
+                            if(response.code === true){
+                                document.location = '/';
+                            }else
+                                alert("An error happened. Try again later");
+
+                        },
+                        error: () => {
+                            alert("An error happened. Try again later");
+                        },
+                        dataType: "json"
+                });
+            },
+            keyboard_audio_effect() {
+                var soundEffect = new Audio("/audio/key.m4a");
+                soundEffect.play();
+            }
+        },
+        computed: {
+        }
+    });
+</script>
+</body>
+</html>
