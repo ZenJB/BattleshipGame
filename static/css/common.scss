@@ -74,7 +74,7 @@ body::after {
 $tamanho_do_tabuleiro: 30em;
 .tabuleiro_de_jogo{
     position: absolute;
-    top: 50%;
+    top: 52%;
     left: 50%;
     transform: translate(-50%, -50%);
     width:  $tamanho_do_tabuleiro;
