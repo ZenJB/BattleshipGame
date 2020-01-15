@@ -18,4 +18,6 @@ npm install -g node-gyp
 npm install -g nodemon
 npm i
 chmod +x start.sh
-echo "Setup terminado!"
+mkdir config
+cd config
+openssl req -newkey rsa:2048 -nodes -keyout private.key -x509 -days 365 -out certificate.crt
