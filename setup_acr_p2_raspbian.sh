@@ -18,6 +18,7 @@ npm install -g node-gyp
 npm install -g nodemon
 npm i
 chmod +x start.sh
+mkdir config
 cd config
 openssl req -nodes -new -x509 -keyout private.key -out certificate.crt
 cd ..
