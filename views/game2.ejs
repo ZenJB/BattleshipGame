@@ -272,52 +272,123 @@
             socket = new io();
             $('#loading_div').fadeOut(300);
             $('#gameStatus').html('A iniciar o jogo...');
-            let dadosDoServer = JSON.parse(this.getTabuleiroDoServidor());
-            let tabuleiroNoServer = JSON.parse(dadosDoServer.tabuleiro);
-            let radarNoServer = dadosDoServer["radar"+this.tipoDeJogador];
-            let radarDoInimigo = dadosDoServer["radar"+((this.tipoDeJogador === 1)? 2:1)];
-                    console.log(radarDoInimigo);
-            //Imprimir letra e cor no meu tabuleiro
-            for(let i = 1; i <= 9; i++)
-                for(let p = 65; p <=75;p++){
-                    let letra = String.fromCharCode(p);
-                    $('#n_'+i+'_'+letra).html(i+letra);
-                    if(tabuleiroNoServer[i][letra] === '1')
-                        $('#n_'+i+'_'+letra).css('background-color','black');
-                    
-                    if(radarDoInimigo[i][letra] === 1)
-                        $('#n_'+i+'_'+letra).css('background-color','blue');
-                    else
-                    if(radarDoInimigo[i][letra] === 2)
-                        $('#n_'+i+'_'+letra).css('background-color','red');
-                }
             for(let i = 1; i <= 9; i++)
                 for(let p = 65; p <=75;p++){
                     let letra = String.fromCharCode(p);
                     $('#i_'+i+'_'+letra).html(i+letra);
+                    $('#n_'+i+'_'+letra).html(i+letra);
                     let play = "play('"+i+""+letra+"')";
                     $('#i_'+i+'_'+letra).attr('v-on:click',play);
-                    if(radarNoServer[i][letra] === 1){
-                        $('#i_'+i+'_'+letra).css('background-color','blue');
-                    }else
-                    if(radarNoServer[i][letra] === 2){
-                        $('#i_'+i+'_'+letra).css('background-color','red');
-                        this.abaterCertaPosicaoDeNavio(i+''+letra);
-                    }
                 }
-                this.removerNaviosVazios();
+            
 
-
+            socket.emit('ComunicacaoExtra_'+this.myUsername,JSON.stringify({
+                url: 'getTabuleiroDoServidor',
+                gameID: this.gameID
+            }));
             //#region Verificar se o jogo já terminou
-            this.mostrarQuemGanhou();
+            socket.emit('ComunicacaoExtra_'+this.myUsername,JSON.stringify({
+                url: 'mostrarQuemGanhou',
+                gameID: this.gameID
+            }));
             //#endregion
 
-                this.mostrarTurno();
+            socket.on('ComunicacaoExtra_'+this.myUsername, (dados) =>{
+                let data = dados;
+                switch(data.url){
+                    //#region mostrarQuemGanhou
+                    case "mostrarQuemGanhou":
+                        let jogoTerminou = JSON.parse(data.api_game_hasGameEnded);
+                        if(jogoTerminou.jogador1Ganhou)
+                        {
+                            var soundEffect = new Audio("/audio/military_horn.mp3");
+                            soundEffect.play();
+                            $.confirm({
+                                title: 'O jogo terminou',
+                                content: (this.tipoDeJogador === 1)? 'Ganhaste!': 'Perdeste',
+                                buttons: {
+                                    ok: function () {
+                                        socket.emit('ComunicacaoExtra_'+vue.myUsername,JSON.stringify({
+                                            url: 'updateEstadoDoJogo',
+                                            gameID: vue.gameID
+                                        }));
+                                        window.location.href = '/menu';
+                                    }
+                                }
+                            });
+                        }
+                        if(jogoTerminou.jogador2Ganhou){
+                            var soundEffect = new Audio("/audio/military_horn.mp3");
+                            soundEffect.play();
+                            $.confirm({
+                                title: 'O jogo terminou',
+                                content: (this.tipoDeJogador === 2)? 'Ganhaste!': 'Perdeste',
+                                buttons: {
+                                    ok: function () {
+                                        socket.emit('ComunicacaoExtra_'+vue.myUsername,JSON.stringify({
+                                            url: 'updateEstadoDoJogo',
+                                            gameID: vue.gameID
+                                        }));
+                                        window.location.href = '/menu';
+                                    }
+                                }
+                            });
+                        }
+                    break;
+                    //#endregion
 
+                    //#region updateEstadoDoJogo
+                    case "updateEstadoDoJogo":
+                        
+                        break;
+                    //#endregion
+                    
+                    //#region getTabuleiroDoServidor
+                    case "getTabuleiroDoServidor":
+                        let api_game_getLayout = data.api_game_getLayout;
+                        let dadosDoServer = JSON.parse(api_game_getLayout);
+                        let tabuleiroNoServer = JSON.parse(dadosDoServer.tabuleiro);
+                        let radarNoServer = dadosDoServer["radar"+this.tipoDeJogador];
+                        let radarDoInimigo = dadosDoServer["radar"+((this.tipoDeJogador === 1)? 2:1)];
+                        //Imprimir letra e cor no meu tabuleiro
+                        for(let i = 1; i <= 9; i++)
+                            for(let p = 65; p <=75;p++){
+                                let letra = String.fromCharCode(p);
+                                if(tabuleiroNoServer[i][letra] === '1')
+                                    $('#n_'+i+'_'+letra).css('background-color','black');
+                                
+                                if(radarDoInimigo[i][letra] === 1)
+                                    $('#n_'+i+'_'+letra).css('background-color','blue');
+                                else
+                                if(radarDoInimigo[i][letra] === 2)
+                                    $('#n_'+i+'_'+letra).css('background-color','red');
+                            }
+                        for(let i = 1; i <= 9; i++)
+                            for(let p = 65; p <=75;p++){
+                                let letra = String.fromCharCode(p);
+                                if(radarNoServer[i][letra] === 1){
+                                    $('#i_'+i+'_'+letra).css('background-color','blue');
+                                }else
+                                if(radarNoServer[i][letra] === 2){
+                                    $('#i_'+i+'_'+letra).css('background-color','red');
+                                    this.abaterCertaPosicaoDeNavio(i+''+letra);
+                                }
+                            }
+                            this.removerNaviosVazios();
+                            this.mostrarTurno();
+                        break;
+                    //#endregion
+                    default:
+                        break;
+                }
+            });
 
             socket.on('Game_'+this.gameID, (data) => {
                 //#region Verificar se o jogo já terminou
-                this.mostrarQuemGanhou();
+                socket.emit('ComunicacaoExtra_'+this.myUsername,JSON.stringify({
+                    url: 'mostrarQuemGanhou',
+                    gameID: this.gameID
+                }));
                 //#endregion
                 let recebido = JSON.parse(data);
                 if(recebido.quemJogou !== this.tipoDeJogador)
@@ -369,49 +440,6 @@
                         });
                 }              
             },
-            updateEstadoDoJogo(){
-                return $.ajax({
-                            type: "POST",
-                            url: '/api/game/updateEstadoDoJogo',
-                            data: {
-                                gameID: this.gameID
-                            },
-                            async: false
-                        }).responseText;
-            },
-            mostrarQuemGanhou(){
-                console.log(this.quemGanhou());
-                let jogoTerminou = JSON.parse(this.quemGanhou());
-                if(jogoTerminou.jogador1Ganhou)
-                {
-                    var soundEffect = new Audio("/audio/military_horn.mp3");
-                    soundEffect.play();
-                    $.confirm({
-                        title: 'O jogo terminou',
-                        content: (this.tipoDeJogador === 1)? 'Ganhaste!': 'Perdeste',
-                        buttons: {
-                            ok: function () {
-                                vue.updateEstadoDoJogo();
-                                window.location.href = '/menu';
-                            }
-                        }
-                    });
-                }
-                if(jogoTerminou.jogador2Ganhou){
-                    var soundEffect = new Audio("/audio/military_horn.mp3");
-                    soundEffect.play();
-                    $.confirm({
-                        title: 'O jogo terminou',
-                        content: (this.tipoDeJogador === 2)? 'Ganhaste!': 'Perdeste',
-                        buttons: {
-                            ok: function () {
-                                vue.updateEstadoDoJogo();
-                                window.location.href = '/menu';
-                            }
-                        }
-                    });
-                }
-            },
             mostrarTurno(){
                 console.log('MUDANCA DE TURNO: '+this.turno);
                 console.log(typeof this.turno);
@@ -457,26 +485,6 @@
                     else
                         this.turno = 2;
                 }
-            },
-            getTabuleiroDoServidor(){
-                return $.ajax({
-                    type: "POST",
-                    url: '/api/game/getLayout',
-                    data: {
-                        gameID: this.gameID
-                    },
-                    async: false
-                }).responseText;
-            },
-            quemGanhou(){
-                return $.ajax({
-                    type: "POST",
-                    url: '/api/game/hasGameEnded',
-                    data: {
-                        gameID: this.gameID
-                    },
-                    async: false
-                }).responseText
             },
             requestGameInfo(){
                 socket.emit('Game',{gameID: this.gameID, estado: 'info'});

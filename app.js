@@ -418,6 +418,40 @@ app.post('/api/game/bothPlayersHaveSetupBoard', (req,res) => {
 
 });
 
+//Salva o tabuleiro.
+//Requer: ID do jogo, nome do jogador (ver sessao), que jogador sou eu( 1 ou 2)
+//        O meu tabuleiro
+//        Localizacao dos meus barcos
+const api_game_saveLayout = (player, gameID, playerNumber, tabuleiro, meusBarcos) => {
+
+    //Verificar que um jogo está a decorrer
+    let query = db.prepare("SELECT COUNT(*) AS numero FROM games WHERE terminado = '0' AND player1 = ? OR player2 = ?").get(player,player);
+    if(query.numero <= 0){
+        console.log("[DEBUG api_game_saveLayout] Um jogo já está a decorrer! by "+player);
+        return;
+    }
+
+    //Obter informação daquele jogo
+    let gameInfo = db.prepare('SELECT * FROM games WHERE id = ?;').get(gameID);
+    let tabuleiro_na_db = JSON.parse( gameInfo.gameInfo );
+    let localizacaoDosBarcosNaDB = JSON.parse(gameInfo.boat_location);
+
+    tabuleiro_na_db["jogador"+playerNumber].tabuleiro = tabuleiro;
+    localizacaoDosBarcosNaDB["jogador"+playerNumber] = meusBarcos;
+    //Atualizar o estado do jogo
+    let editGameInfoQuery = db.prepare("UPDATE games SET gameInfo = ?, boat_location=? WHERE id = ?;")
+    .run(JSON.stringify(tabuleiro_na_db), JSON.stringify(localizacaoDosBarcosNaDB), gameID);
+    
+    //Diz ao jogador que o inimigo está pronto
+    if(gameInfo.player1 === player){
+        io.emit('InGame_'+gameInfo.player2,'EnemyReady');
+        console.log("[DEBUG api_game_saveLayout] Jogador1: pronto!");
+    }else{
+        io.emit('InGame_'+gameInfo.player1,'EnemyReady');
+        console.log("[DEBUG api_game_saveLayout] Jogador2: pronto!");
+    }
+};
+
 app.post('/api/game/saveLayout', (req,res) => {
     //Nome do jogador
     let player = req.session.username;
@@ -475,6 +509,38 @@ app.post('/api/game/saveLayout', (req,res) => {
     res.header(200).end(JSON.stringify({ code: true}));
 
 });
+
+const api_game_getLayout = (player, gameID) => {
+
+  let query = db.prepare("SELECT COUNT(*) AS numero FROM games WHERE terminado = '0' AND player1 = ? OR player2 = ?").get(player,player);
+  if(query.numero <= 0){
+      res.header(200).end(JSON.stringify({ code: false}));
+      return;
+  }
+
+  //Informação daquele jogo
+  let gameInfo = db.prepare("SELECT * FROM games WHERE terminado = '0' AND id = ?;").get(gameID);
+  let tabuleiro_na_db = JSON.parse( gameInfo.gameInfo );
+  //radar1-> Radar do jogador1; radar2-> radar do jogador 2
+  if(gameInfo.player1 === player)
+      return JSON.stringify({ 
+          code: true, 
+          tabuleiro: tabuleiro_na_db.jogador1.tabuleiro, 
+          radar1: tabuleiro_na_db.jogador1.radar, 
+          radar2: tabuleiro_na_db.jogador2.radar,
+          aJogar: tabuleiro_na_db.aJogar,
+          boat_location: JSON.stringify(JSON.parse(gameInfo.boat_location).jogador2)
+      });
+  else
+      return JSON.stringify({ 
+          code: true, 
+          tabuleiro: tabuleiro_na_db.jogador2.tabuleiro, 
+          radar1: tabuleiro_na_db.jogador1.radar, 
+          radar2: tabuleiro_na_db.jogador2.radar,
+          aJogar: tabuleiro_na_db.aJogar,
+          boat_location: JSON.stringify(JSON.parse(gameInfo.boat_location).jogador1)
+      });
+};
 
 app.post('/api/game/getLayout', (req,res) => {
     //Nome do jogador
@@ -559,6 +625,28 @@ const jaTerminouOJogo = (gameID) => {
     return {jogador1Ganhou: jogador1Ganhou, jogador2Ganhou: jogador2Ganhou};
 }
 
+const api_game_updateEstadoDoJogo = (gameID) => {
+    
+    
+    //#region Verificar se o jogo já terminou
+    let query = db.prepare("SELECT COUNT(*) AS numero FROM games WHERE terminado = '1' AND id= ?").get(gameID);
+    if(query.numero > 0){
+        return;
+    }
+    //#endregion
+
+    let resp = jaTerminouOJogo(gameID);
+    if(resp.jogador1Ganhou || resp.jogador2Ganhou)
+    {
+        let query = db.prepare("UPDATE games SET terminado = '1' WHERE id = ?;").run(gameID);
+    }
+    return JSON.stringify({ 
+        code: true,
+        jogador1Ganhou: resp.jogador1Ganhou,
+        jogador2Ganhou: resp.jogador2Ganhou
+    });
+}
+
 //Verificar e marcar que o jogo já terminou
 app.post('/api/game/updateEstadoDoJogo', (req,res) => {
     //ID do jogo
@@ -587,7 +675,22 @@ app.post('/api/game/updateEstadoDoJogo', (req,res) => {
     }));
 });
 
+const api_game_hasGameEnded = (gameID) => {
+    
+    //#region Verificar se o jogo já terminou
+    let query = db.prepare("SELECT COUNT(*) AS numero FROM games WHERE terminado = '1' AND id= ?").get(gameID);
+    if(query.numero > 0){
+        return;
+    }
+    //#endregion
 
+    let resp = jaTerminouOJogo(gameID);
+    return JSON.stringify({ 
+        code: true,
+        jogador1Ganhou: resp.jogador1Ganhou,
+        jogador2Ganhou: resp.jogador2Ganhou
+    });
+}
 app.post('/api/game/hasGameEnded', (req,res) => {
     //ID do jogo
     let gameID = req.body.gameID;
@@ -634,6 +737,38 @@ app.post('/api/game/hasGameEnded', (req,res) => {
 io.on('connection',(socket) => {
     let player = socket.handshake.session.username;
     if(player != undefined){
+        socket.on('ComunicacaoExtra_'+player, (dados) => {
+            let data = JSON.parse(dados);
+            console.log("[SOCKET] DADOS: "+dados+" by "+player);
+            console.debug("[SOCKET] "+data.url+" by "+player);
+            switch(data.url)
+            {
+                case "api_game_saveLayout":
+                    console.log("[DEBUG] api_game_saveLayout");
+                    api_game_saveLayout(player, data.gameID, data.playerNumber, data.tabuleiro, JSON.parse(data.meusBarcos))
+                    break;
+                case "mostrarQuemGanhou":
+                    io.emit('ComunicacaoExtra_'+player, {
+                        url: 'mostrarQuemGanhou',
+                        api_game_hasGameEnded: api_game_hasGameEnded(data.gameID)
+                    });
+                    break;
+                case "updateEstadoDoJogo":
+                    io.emit('ComunicacaoExtra_'+player, {
+                        url: 'updateEstadoDoJogo',
+                        api_game_updateEstadoDoJogo: api_game_updateEstadoDoJogo(data.gameID)
+                    });
+                    break;
+                case "getTabuleiroDoServidor":
+                    io.emit('ComunicacaoExtra_'+player, {
+                        url: 'getTabuleiroDoServidor',
+                        api_game_getLayout: api_game_getLayout(player, data.gameID)
+                    });
+                    break;
+                //api_game_getLayout
+            }
+        });
+
         socket.on('joinGame', (gameID) => {
             console.log("[SOCKET] joinGame by "+player);
 

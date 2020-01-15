@@ -600,7 +600,16 @@
                                 if(myUsername === player2)
                                     playerNumber = 2;
                                 console.log(tabuleiro);
-                                $.ajax({
+                                socket.emit('ComunicacaoExtra_'+myUsername, JSON.stringify({
+                                    url: 'api_game_saveLayout',
+                                    "playerNumber": playerNumber,
+                                    "gameID": gameID,
+                                    "tabuleiro": JSON.stringify(tabuleiro),
+                                    "meusBarcos": JSON.stringify(settings.posicaoDosNavios)
+                                }));
+                                imReady = true;
+                                checkIfBothPlayersAreReady(iniciarOJogoEmSi);
+                                /*$.ajax({
                                     type: "POST",
                                     url: '/api/game/saveLayout',
                                     data: {
@@ -621,7 +630,7 @@
                                             console.log("An error happened");
                                     },
                                     dataType: "json"
-                                });
+                                });*/
                             });
                         });
                     });
